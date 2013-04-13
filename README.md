@@ -8,8 +8,6 @@ Capture Mouse Movement
 Send to Server
 Store in Database
 
-# HELLO :D
-
 
 capture mouse movement
 capture mouse clicks
