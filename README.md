@@ -1,6 +1,14 @@
 socket_ux_testing_suite
 =======================
 
+##BY NEXT WEEK
+Collect Client info
+Capture Events
+Capture Mouse Movement
+Send to Server
+Store in Database
+
+
 capture mouse movement
 capture mouse clicks
 log resolution and other schtuff
