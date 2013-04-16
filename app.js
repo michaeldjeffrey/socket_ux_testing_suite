@@ -32,5 +32,10 @@ server.listen(app.get('port'), function(){
 var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function(socket){
-  socket.emit('news', {hello:'world'});
+  socket.on('recieve click', function(){
+    console.log('click recieved')
+  });
+  socket.on('mouse_movements', function(data){
+    console.log(data)
+  })
 })
