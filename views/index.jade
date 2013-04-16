@@ -6,6 +6,6 @@ block content
 	script(src='/socket.io/socket.io.js')
 	script(type='text/javascript')
 		var sockets = io.connect()
-		sockets.on('init', function(msg){
+		sockets.on('news', function(msg){
 			console.log(msg)
 			});
