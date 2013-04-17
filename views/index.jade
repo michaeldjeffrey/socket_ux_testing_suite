@@ -3,9 +3,37 @@ extends layout
 block content
 	h1= title
 	p Welcome to #{title}
+
+	input.test(type='button', value='click me')
+
 	script(src='/socket.io/socket.io.js')
+	script(src='/javascripts/jquery.js')
+	script(src='/javascripts/browser_detect.js')
 	script(type='text/javascript')
-		var sockets = io.connect()
-		sockets.on('news', function(msg){
-			console.log(msg)
+		var socket = io.connect()
+		var mouse_move_array = [];
+		$('body').on('mousemove', function(e){
+			if(mouse_move_array.length < 100){
+				mouse_move_array.push({x:e.pageX,y:e.pageY, dateTime: Date()});
+			} else {
+				socket.emit('mouse_movements', {movement: mouse_move_array});
+				//- console.log(mouse_move_array);
+				mouse_move_array = [];
+			}
+		});
+		$('body').on('click', function(e){
+			socket.emit('mouse_click', {click: {x:e.pageX, y:e.pageY, dateTime: Date()}});
+			//- console.log('click: '+e.pageX+","+e.pageY+'date: '+Date());
+		});
+		socket.emit('client_information', 
+			{
+				screen_size: {
+					width:$(window).width(),
+					height:$(window).height()
+				},
+				browser: {
+					browser: BrowserDetect.browser, 
+					version: BrowserDetect.version, 
+					os: BrowserDetect.OS
+				}
 			});
