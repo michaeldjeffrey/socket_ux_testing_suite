@@ -4,5 +4,6 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+	res.cookie('sid', req.session.id)
+  res.render('index', { title: 'Express'});
 };
