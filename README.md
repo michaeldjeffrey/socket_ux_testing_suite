@@ -1,39 +1,44 @@
 socket_ux_testing_suite
 =======================
 
-##BY NEXT WEEK
-* [x] Collect Client info  
-* [x] Capture Events  
-* [x] Capture Mouse Movement  
-* [x] Send to Server  
-* [ ] Store in Database
-* [x] capture mouse movement  
-* [x] capture mouse clicks  
-* [x] log resolution and other schtuff  
+##Jake
+- [ ] mockup for GUI
+- [ ] coded GUI
+- [ ] 
 
-SessionID:  
-{  
-  movement : [  
-{  
-sessionID, url, position :   
-[   
-{ x, y, time }  
-]   
-} ],  
-	clicks : [  
-		{  
-		sessionID, url, x, y, time   
-		} ],  
-	screens : [ { url, screenshots } ],  
-	misc : {  
-		screen resolution, ip, browser  
-		}  
-	}  
-  
-index Session Ids
+##Joe  
+- [ ] Initial object store into mongodb on connection  
+- [ ] Subsequent storage of objects containing same sessionID 
+- [ ] retrieval from database
 
-index urls
+note: to check the session id, type  
 
-index of browsers
+    document.cookie
+    
+into the console  
+to delete the cookie, type
 
-index of ip
+    document.cookie = null
+    
+unto the console
+
+    SessionID: {   
+        movement : [    
+    		{ sessionID, url, position : [     
+    			{ x, y, time }    
+    		] } ],    
+    	clicks : [    
+    		{ sessionID, url, x, y, time }     
+    	],    
+    	screens : [   
+    		{ url, screenshots }   
+    	],    
+    	misc : {    
+    		screen resolution, ip, browser    
+    	}    
+    } 
+
+index Session Ids  
+index urls  
+index of browsers  
+index of ip  
