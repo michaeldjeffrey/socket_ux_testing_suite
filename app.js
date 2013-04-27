@@ -26,10 +26,6 @@ app.configure(function(){
 });
 
 app.get('/', routes.index);
-// app.get('/', function(req, res){
-//   req.session.name = 'new name';
-//   res.send(req.session.id);
-// });
 
 
 server.listen(app.get('port'), function(){
@@ -47,6 +43,11 @@ io.sockets.on('connection', function(socket){
     console.log(click);
   });
   socket.on('client_information', function(data){
+    console.log('session from client', data.SessionID)
+    if(data.sessionID == null){
+      socket.emit('sessionID', socket.id);
+      data.sessionID = socket.id;
+    }
     var address = socket.handshake.address;
     data.ip = address.address
     console.log(data);
