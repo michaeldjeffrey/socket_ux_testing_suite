@@ -19,17 +19,21 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.cookieParser());
+  app.use(express.session({secret: 'secret'}));
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.get('/', routes.index);
 
+
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port "+app.get('port'));
 });
 
 var io = require('socket.io').listen(server);
+io.set('log level', 1);
 
 io.sockets.on('connection', function(socket){
   socket.on('mouse_movements', function(movement){
@@ -39,6 +43,11 @@ io.sockets.on('connection', function(socket){
     console.log(click);
   });
   socket.on('client_information', function(data){
+    console.log('session from client', data.SessionID)
+    if(data.sessionID == null){
+      socket.emit('sessionID', socket.id);
+      data.sessionID = socket.id;
+    }
     var address = socket.handshake.address;
     data.ip = address.address
     console.log(data);

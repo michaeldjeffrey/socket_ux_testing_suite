@@ -3,6 +3,7 @@ extends layout
 block content
 	h1= title
 	p Welcome to #{title}
+	a(href='/') Index
 
 	input.test(type='button', value='click me')
 
@@ -11,22 +12,9 @@ block content
 	script(src='/javascripts/browser_detect.js')
 	script(type='text/javascript')
 		var socket = io.connect()
-		var mouse_move_array = [];
-		$('body').on('mousemove', function(e){
-			if(mouse_move_array.length < 100){
-				mouse_move_array.push({x:e.pageX,y:e.pageY, dateTime: Date()});
-			} else {
-				socket.emit('mouse_movements', {movement: mouse_move_array});
-				//- console.log(mouse_move_array);
-				mouse_move_array = [];
-			}
-		});
-		$('body').on('click', function(e){
-			socket.emit('mouse_click', {click: {x:e.pageX, y:e.pageY, dateTime: Date()}});
-			//- console.log('click: '+e.pageX+","+e.pageY+'date: '+Date());
-		});
 		socket.emit('client_information', 
 			{
+				sessionID: readCookie('sid'),
 				screen_size: {
 					width:$(window).width(),
 					height:$(window).height()
@@ -37,3 +25,27 @@ block content
 					os: BrowserDetect.OS
 				}
 			});
+		var mouse_move_array = [];
+		$('body').on('mousemove', function(e){
+			if(mouse_move_array.length < 100){
+				mouse_move_array.push({x:e.pageX,y:e.pageY, dateTime: Date()});
+			} else {
+				socket.emit('mouse_movements', {sessionID: readCookie('sid'), movement: mouse_move_array});
+				//- console.log(mouse_move_array);
+				mouse_move_array = [];
+			}
+		});
+		$('body').on('click', function(e){
+			socket.emit('mouse_click', {sessionID: readCookie('sid'), click: {x:e.pageX, y:e.pageY, dateTime: Date()}});
+			//- console.log('click: '+e.pageX+","+e.pageY+'date: '+Date());
+		});
+		function readCookie(name){
+			var nameEQ = name + '=';
+			var ca = document.cookie.split(';');
+			for(var i=0; i<ca.length;i++){
+				var c = ca[i];
+				while(c.charAt(0)==' ') c = c.substring(1, c.length);
+				if(c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+			}
+			return null;
+		}
