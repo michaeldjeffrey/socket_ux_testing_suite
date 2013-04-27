@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Foundation 4</title>
+  <style>
+    body{
+      min-height: 600px;
+      background: #aa6666;
+    }
+  </style>
+</head>
+<body>
+
+
+
+
+
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js"></script>
+  <script src="public/javascripts/browser_detect.js"></script>
+  <script>
+    var socket = io.connect('http://localhost:5000')
+    socket.emit('client_information', 
+    {
+      sessionID: readCookie('sid'),
+      screen_size: {
+        width:$(window).width(),
+        height:$(window).height()
+      },
+      browser: {
+        browser: BrowserDetect.browser, 
+        version: BrowserDetect.version, 
+        os: BrowserDetect.OS
+      }
+    });
+    socket.on('sessionID', function(data){
+      document.cookie = 'sid='+data;
+    });
+    
+    var mouse_move_array = [];
+    $('body').on('mousemove', function(e){
+      if(mouse_move_array.length < 100){
+        mouse_move_array.push({x:e.pageX,y:e.pageY, dateTime: Date()});
+      } else {
+        socket.emit('mouse_movements', {sessionID: readCookie('sid'), movement: mouse_move_array});
+        //- console.log(mouse_move_array);
+        mouse_move_array = [];
+      }
+    });
+    $('body').on('click', function(e){
+      socket.emit('mouse_click', {sessionID: readCookie('sid'), click: {x:e.pageX, y:e.pageY, dateTime: Date()}});
+      //- console.log('click: '+e.pageX+","+e.pageY+'date: '+Date());
+    });
+
+    function readCookie(name){
+      var nameEQ = name + '=';
+      var ca = document.cookie.split(';');
+      for(var i=0; i<ca.length;i++){
+        var c = ca[i];
+        while(c.charAt(0)==' ') c = c.substring(1, c.length);
+        if(c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
+  </script>
+</body>
+</html>
