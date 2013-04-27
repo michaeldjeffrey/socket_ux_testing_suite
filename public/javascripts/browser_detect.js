@@ -113,5 +113,5 @@ var BrowserDetect = {
 		}
 	]
 
-};
+ };
 BrowserDetect.init();
