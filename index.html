@@ -46,7 +46,11 @@
       if(mouse_move_array.length < 100){
         mouse_move_array.push({x:e.pageX,y:e.pageY, dateTime: Date()});
       } else {
-        socket.emit('mouse_movements', {sessionID: readCookie('sid'), movement: mouse_move_array});
+        socket.emit('mouse_movements', 
+          {sessionID: readCookie('sid'), 
+          position: mouse_move_array,
+          url: document.URL
+          });
         //- console.log(mouse_move_array);
         mouse_move_array = [];
       }
