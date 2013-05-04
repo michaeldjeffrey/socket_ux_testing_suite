@@ -1,6 +1,13 @@
 socket_ux_testing_suite
 =======================
 
+Cookie will not work unless page is served from a server  
+Open up Terminal , navigate to the folder and type  
+
+	python -m SimpleHTTPServer [port]
+
+then go to your page through http://localhost:[port] and cookies will work
+
 ##Jake
 - [ ] mockup for GUI
 - [ ] coded GUI
