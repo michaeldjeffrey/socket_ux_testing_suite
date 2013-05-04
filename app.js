@@ -83,6 +83,10 @@ io.sockets.on('connection', function(socket){
       )
   });
   
+
+//==========================================================
+//                CLIENT INFORMATION
+//==========================================================
   socket.on('client_information', function(data){
     console.log('session from client', data.SessionID)
     if(data.sessionID == null){
@@ -92,5 +96,17 @@ io.sockets.on('connection', function(socket){
     var address = socket.handshake.address;
     data.ip = address.address
     console.log(data);
+    var newSession = new Session_Model();
+    newSession.user_info = data;
+    newSession.sessionID = data.sessionID;
+    newSession.save(function(err){
+      if(!err){
+        console.log('successfully saved');
+      } else {
+        console.log("nothing was saved. try agian sucker...");
+      }
+    })
   });
-})
+
+// END OF SOCKET CONNECTION
+});
