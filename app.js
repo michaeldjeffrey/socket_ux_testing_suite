@@ -40,9 +40,31 @@ var io = require('socket.io').listen(server);
 io.set('log level', 1);
 
 io.sockets.on('connection', function(socket){
+
+
+//==========================================================
+//                MOUSE MOVEMENT
+//==========================================================
   socket.on('mouse_movements', function(movement){
     console.log(movement);
+    Session_Model.update(
+      {sessionID: movement.sessionID},
+      {$push: 
+        {movement: 
+          {position: movement.position, url: movement.url}
+        }
+      },
+      {upsert: true}, function(err){
+        if(err){
+          console.log("err: "+err)
+        } else {
+          console.log("Successfully added movement")
+        }
+      }
+    )
   });
+
+
   socket.on('mouse_click', function(click){
     console.log(click);
   });
