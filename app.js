@@ -6,10 +6,14 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , mongoose = require('mongoose')
+  , Session_Model = require('./models/session').Session_Model;
 
 var app = express();
 var server = http.createServer(app);
+
+mongoose.connect('mongodb://localhost/ui_testing')
 
 app.configure(function(){
   app.set('port', process.env.PORT || 5000);
