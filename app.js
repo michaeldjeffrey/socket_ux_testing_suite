@@ -65,9 +65,24 @@ io.sockets.on('connection', function(socket){
   });
 
 
+//==========================================================
+//                MOUSE CLICK
+//==========================================================
   socket.on('mouse_click', function(click){
     console.log(click);
+    Session_Model.update(
+      {sessionID: click.sessionID},
+      {$push: {clicks: click.click}},
+      {upsert: true},function(err){
+        if(err){
+          console.log("err: "+err)
+        } else {
+          console.log("Successfully added click")
+        }
+      }
+      )
   });
+  
   socket.on('client_information', function(data){
     console.log('session from client', data.SessionID)
     if(data.sessionID == null){
