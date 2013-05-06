@@ -11,10 +11,9 @@ then go to your page through http://localhost:[port] and cookies will work
 ##Jake
 - [ ] mockup for GUI
 - [ ] coded GUI
-- [ ] 
 
 ##Joe  
-- [ ] Initial object store into mongodb on connection  
+- [X] Initial object store into mongodb on connection  
 - [ ] Subsequent storage of objects containing same sessionID 
 - [ ] retrieval from database
 
