@@ -1,43 +1,78 @@
 socket_ux_testing_suite
 =======================
 
-##BY NEXT WEEK
-Collect Client info
-Capture Events
-Capture Mouse Movement
-Send to Server
-Store in Database
+Cookie will not work unless page is served from a server  
+Open up Terminal , navigate to the folder and type  
 
-# HELLO :D
+	python -m SimpleHTTPServer [port]
 
+then go to your page through http://localhost:[port] and cookies will work
 
-capture mouse movement
-capture mouse clicks
-log resolution and other schtuff
+##Jake
+- [ ] mockup for GUI
+- [ ] coded GUI
 
-SessionID:
-{
-  movement : [ 
-{ 
-sessionID, url, position : 
-[ 
-{ x, y, time }
-] 
-} ],
-	clicks : [
-		{
-		sessionID, url, x, y, time 
-		} ],
-	screens : [ { url, screenshots } ],
-	misc : {
-		screen resolution, ip, browser
+##Joe  
+- [X] Initial object store into mongodb on connection  
+- [X] Subsequent storage of objects containing same sessionID 
+- [ ] retrieval from database
+
+note: to check the session id, type  
+
+	document.cookie
+	
+into the console  
+to delete the cookie, type
+
+	document.cookie = null
+	
+into the console
+
+	session_Schema = new Schema({
+		sessionID: String,
+		movement: [movements_Schema],
+		clicks: [clicks_Schema],
+		screens: [screens_Schema],
+		user_info: {
+			sessionID: String,
+			screen_size: {
+				width: Number,
+				height: Number
+			},
+			ip: String,
+			browser: {
+				browser: String,
+				version: Number,
+				os: String
+			},
 		}
-	}
+	});
 
-index Session Ids
+	movements_Schema = new Schema({
+		url: String,
+		position: [mouse_movements_Schema]
+	});
+	
+	mouse_movements_Schema = new Schema({
+		x: Number,
+		y: Number,
+		dateTime: String
+	});
 
-index urls
+	clicks_Schema = new Schema({
+		url: String,
+		x: Number,
+		y: Number,
+		dateTime: String
+	});
 
-index of browsers
+	screens_Schema = new Schema({
+		url: String,
+		screenshots_location: String
+	});
 
-index of ip
+
+index Session Ids  
+index urls  
+index of browsers  
+index of ip  

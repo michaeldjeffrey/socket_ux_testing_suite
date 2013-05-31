@@ -1,0 +1,13 @@
+extends layout
+
+block content
+	h1= title
+	p Welcome to #{title}
+	a(href='/') Index
+
+	input.test(type='button', value='click me')
+
+	script(src='/socket.io/socket.io.js')
+	script(src='/javascripts/jquery.js')
+	script(src='/javascripts/browser_detect.js')
+	
